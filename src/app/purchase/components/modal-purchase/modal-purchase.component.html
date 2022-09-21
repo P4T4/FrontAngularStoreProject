@@ -1,0 +1,40 @@
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{isEdit ? 'Editar venta' : 'Crear venta'}}</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="formPurchase">
+      <div class="mb-3">
+        <label for="cantidad" class="form-label">Cantidad</label>
+        <input type="number" class="form-control" formControlName="cantidad" id="cantidad"
+          aria-describedby="cantidadHelp">
+        <div id="cantidadHelp" class="form-text" *ngIf="!cantidad?.valid && cantidad?.touched">
+          <p *ngIf="cantidad?.errors?.required">El campo cantidad es requerido</p>
+          <p *ngIf="cantidad?.errors?.min">El campo cantidad minimo debe ser 1</p>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="producto" class="form-label">Disabled select menu</label>
+        <input type="text" class="form-control" disabled value="No hay data disponible, agregue productos primero"
+          *ngIf="products.length == 0; else hasProducts">
+        <ng-template #hasProducts>
+          <select id="producto" class="form-select" formControlName="id_producto">
+            <option>--Seleccione una opción--</option>
+            <option *ngFor="let product of products" [value]="product?.id_producto">{{product?.nombre}}</option>
+          </select>
+        </ng-template>
+        <div id="productoHelp" class="form-text" *ngIf="!id_producto?.valid && id_producto?.touched">
+          <p *ngIf="id_producto?.errors?.required">El campo producto es requerido</p>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark"
+      (click)="onModalClose(isEdit ? 'Update' : 'Save')">Guardar</button>
+  </div>
+</ng-template>
+
+<button class="btn btn-outline-primary" (click)="open(content)">{{ isEdit ? 'Editar venta' : 'Crear venta'
+  }}</button>

@@ -1,0 +1,34 @@
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{isEdit ? 'Editar producto' : 'Crear producto'}}</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="formProduct">
+      <div class="mb-3">
+        <label for="nombre-product" class="form-label">Nombre</label>
+        <input type="text" class="form-control" id="nombre-product" formControlName="nombre"
+          aria-describedby="nombreHelp">
+        <div id="nombreHelp" class="form-text" *ngIf="!nombre?.valid && nombre?.touched">
+          <p *ngIf="nombre?.errors?.required">El campo nombre es requerido</p>
+          <p *ngIf="nombre?.errors?.minlength">El campo nombre minimo debe contener 2 letras</p>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="valor" class="form-label">Valor</label>
+        <input type="text" class="form-control" formControlName="valor" id="valor" aria-describedby="valorHelp">
+        <div id="valorHelp" class="form-text" *ngIf="!valor?.valid && valor?.touched">
+          <p *ngIf="valor?.errors?.required">El campo valor es requerido</p>
+          <p *ngIf="valor?.errors?.minlength">El campo valor minimo debe contener 2 letras</p>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark"
+      (click)="onModalClose(isEdit ? 'Update' : 'Save')">Guardar</button>
+  </div>
+</ng-template>
+
+<button class="btn btn-outline-primary" (click)="open(content)">{{ isEdit ? 'Editar producto' : 'Crear producto'
+  }}</button>

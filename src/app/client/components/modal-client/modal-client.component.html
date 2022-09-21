@@ -1,0 +1,52 @@
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{isEdit ? 'Editar cliente' : 'Crear cliente'}}</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="formClient">
+      <div class="mb-3">
+        <label for="nombre-client" class="form-label">Nombre</label>
+        <input type="text" class="form-control" id="nombre-client" formControlName="nombre"
+          aria-describedby="nombreHelp">
+        <div id="nombreHelp" class="form-text" *ngIf="!nombre?.valid && nombre?.touched">
+          <p *ngIf="nombre?.errors?.required">El campo nombre es requerido</p>
+          <p *ngIf="nombre?.errors?.minlength">El campo nombre minimo debe contener 2 letras</p>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="apellido" class="form-label">Apellido</label>
+        <input type="text" class="form-control" formControlName="apellido" id="apellido"
+          aria-describedby="apellidoHelp">
+        <div id="apellidoHelp" class="form-text" *ngIf="!apellido?.valid && apellido?.touched">
+          <p *ngIf="apellido?.errors?.required">El campo apellido es requerido</p>
+          <p *ngIf="apellido?.errors?.minlength">El campo apellido minimo debe contener 2 letras</p>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="cedula" class="form-label">Número de identificación</label>
+        <input type="number" class="form-control" formControlName="cedula" id="cedula" aria-describedby="cedulaHelp">
+        <div id="cedulaHelp" class="form-text" *ngIf="!cedula?.valid && cedula?.touched">
+          <p *ngIf="cedula?.errors?.required">El campo cedula es requerido</p>
+          <p *ngIf="cedula?.errors?.minlength">El campo cedula minimo debe contener 8 números</p>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="telefono" class="form-label">Telefono</label>
+        <input type="number" class="form-control" formControlName="telefono" id="telefono"
+          aria-describedby="telefonoHelp">
+        <div id="telefonoHelp" class="form-text" *ngIf="!telefono?.valid && telefono?.touched">
+          <p *ngIf="telefono?.errors?.required">El campo telefono es requerido</p>
+          <p *ngIf="telefono?.errors?.minlength">El campo telefono minimo debe contener 8 números</p>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark"
+      (click)="onModalClose(isEdit ? 'Update' : 'Save')">Guardar</button>
+  </div>
+</ng-template>
+
+<button class="btn btn-outline-primary" (click)="open(content)">{{ isEdit ? 'Editar cliente' : 'Crear cliente'
+  }}</button>

@@ -1,0 +1,36 @@
+<h2>Administrar clientes</h2>
+<app-modal-client (close)="saveContentModal($event)"></app-modal-client>
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Apellido</th>
+        <th scope="col">Número de identificación</th>
+        <th scope="col">Telefono</th>
+        <th scope="col">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngIf="clients.length == 0; else hasDataClient">
+        <td colspan="5"> No hay data disponible </td>
+      </tr>
+      <ng-template #hasDataClient>
+        <tr *ngFor="let client of clients; index as i">
+          <th scope="row">{{i+1}}</th>
+          <td>{{client.nombre}}</td>
+          <td>{{client.apellido}}</td>
+          <td>{{client.cedula}}</td>
+          <td>{{client.telefono}}</td>
+          <td>
+            <app-modal-client (close)="updateContentModal($event)" [client-edit]="client"></app-modal-client>
+            <button class="btn btn-outline-danger" type="button" (click)="remove(client)">Eliminar</button>
+            <button class="btn btn-outline-danger" type="button"
+              [routerLink]="['/purchase', client.id_cliente]">Carrito</button>
+          </td>
+        </tr>
+      </ng-template>
+    </tbody>
+  </table>
+</div>

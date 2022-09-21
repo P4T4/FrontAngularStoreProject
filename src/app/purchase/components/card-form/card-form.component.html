@@ -1,0 +1,35 @@
+<div class="card">
+  <div class="card-header">
+    Realizar compra
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Seleccione un producto y digite la cantidad</h5>
+    <form [formGroup]="formPurchaseCard" (ngSubmit)="handlerSubmit($event)">
+      <div class="mb-3">
+        <label for="cantidad" class="form-label">Cantidad</label>
+        <input type="number" class="form-control" formControlName="cantidad" id="cantidad"
+          aria-describedby="cantidadHelp">
+        <div id="cantidadHelp" class="form-text" *ngIf="!cantidad?.valid && cantidad?.touched">
+          <p *ngIf="cantidad?.errors?.required">El campo cantidad es requerido</p>
+          <p *ngIf="cantidad?.errors?.min">El campo cantidad minimo debe ser de 1</p>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="producto" class="form-label">Producto</label>
+        <input type="text" class="form-control" disabled value="No hay data disponible, agregue productos primero"
+          *ngIf="products.length == 0; else hasProducts">
+        <ng-template #hasProducts>
+          <select id="producto" class="form-select" formControlName="id_producto">
+            <option>--Seleccione una opción--</option>
+            <option *ngFor="let product of products" [value]="product?.id_producto">{{product?.nombre}}</option>
+          </select>
+        </ng-template>
+        <div id="productoHelp" class="form-text" *ngIf="!id_producto?.valid && id_producto?.touched">
+          <p *ngIf="id_producto?.errors?.required">El campo producto es requerido</p>
+          <p *ngIf="id_producto?.errors?.minlength">El campo producto minimo debe contener 8 números</p>
+        </div>
+      </div>
+      <button class="btn btn-outline-primary" [ngClass]="{'disabled': formPurchaseCard.invalid}">Generar compra</button>
+    </form>
+  </div>
+</div>
